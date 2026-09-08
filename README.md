@@ -8,10 +8,11 @@ using a real free-tier API key.
 ## Live demo
 
 **[deuber.github.io/massive-api-client-demo](https://deuber.github.io/massive-api-client-demo/)**
-renders the actual results this script captured on a real run — real
-prices, a real 403 from an endpoint the free plan doesn't cover, and a real
-429 from the free tier's rate limit. Nothing on that page is fabricated;
-`results.json` in this repo is the raw output the script wrote.
+has an interactive toggle over six real, pre-recorded outcomes from an
+actual run — real prices, an auto-paginating call, and four different
+failure/edge-case shapes (403, 429, 401, and a silent empty-result "200").
+Nothing on that page is fabricated; `results.json` in this repo is the raw
+output the script wrote.
 
 ## What it demonstrates
 
@@ -24,6 +25,11 @@ prices, a real 403 from an endpoint the free plan doesn't cover, and a real
 - Handling a **429** from the free tier's rate limit — the vendor's own
   README calls this out as expected free-tier behavior, and it's exactly
   what happened running this for real (see `results.json`)
+- Handling a **401** from a deliberately invalid key — confirms it's a
+  specific, self-explanatory error, not a generic connection failure
+- The **silent empty-result gotcha**: an unknown ticker doesn't 404, it
+  returns a normal `200` with an empty result set — code that only catches
+  exceptions will miss this entirely
 - Request tracing (`RESTClient(trace=True)`), which auto-redacts the API
   key in its own log output
 
@@ -47,7 +53,7 @@ partly about.
 ## Project structure
 
 ```
-scripts/run_demo.py   The actual script — loads the key, makes the 4 calls, writes results.json
+scripts/run_demo.py   The actual script — loads the key, makes the 6 calls, writes results.json
 results.json           Real output from an actual run (checked in, not a mock)
-docs/index.html         Static page rendering results.json for GitHub Pages
+docs/index.html         Static page with an interactive toggle over the 6 outcomes
 ```

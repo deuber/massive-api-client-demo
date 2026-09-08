@@ -258,10 +258,13 @@
 
     <div class="flow-toggle" role="group" aria-label="Choose which real call to animate">
       <button type="button" class="flow-btn active" data-path="success" aria-pressed="true">Run: previous close &middot; 200 OK</button>
+      <button type="button" class="flow-btn" data-path="aggs" aria-pressed="false">Run: daily bars &middot; 200 OK</button>
       <button type="button" class="flow-btn" data-path="err403" aria-pressed="false">Run: last trade &middot; 403</button>
       <button type="button" class="flow-btn" data-path="err429" aria-pressed="false">Run: news &middot; 429</button>
+      <button type="button" class="flow-btn" data-path="err401" aria-pressed="false">Run: bad key &middot; 401</button>
+      <button type="button" class="flow-btn" data-path="emptyresult" aria-pressed="false">Run: unknown ticker &middot; 200 (empty)</button>
     </div>
-    <p style="margin:0 0 14px; font-size:12px; color:var(--ink-faint);">This page is static (GitHub Pages) &mdash; these buttons replay three real, pre-recorded outcomes from the Sep 8, 2026 run below; they don't make a live API call from your browser.</p>
+    <p style="margin:0 0 14px; font-size:12px; color:var(--ink-faint);">This page is static (GitHub Pages) &mdash; these buttons replay six real, pre-recorded outcomes from the Sep 8, 2026 run below; they don't make a live API call from your browser.</p>
 
     <figure class="diagram">
       <svg viewBox="0 0 860 210" role="img" aria-label="A key stored in a chmod 600 file on the local machine is read into the Python process environment, passed to RESTClient, sent as a Bearer header across the network to api.massive.com, and the JSON response is parsed back into a typed Python object.">
@@ -312,7 +315,7 @@
 
   <section aria-labelledby="evidence-h">
     <div class="section-head">
-      <h2 id="evidence-h">Four calls, three shapes of success, two kinds of failure</h2>
+      <h2 id="evidence-h">Six calls, three shapes of success, three kinds of failure</h2>
       <span class="section-note">all against live data, Sep 8, 2026</span>
     </div>
 
@@ -372,7 +375,26 @@
 <span class="k">Request URL</span>  <span class="v">https://api.massive.com/v2/last/trade/AAPL</span>
 <span class="k">Authorization</span> <span class="v">Bearer REDACTED</span>
 <span class="k">Status</span>       <span class="hlerr">403 NOT_AUTHORIZED</span>
-<span class="k">Request-Id</span>   <span class="v dim">159b118e893281cf01610dca4c16839b</span>
+<span class="k">Request-Id</span>   <span class="v dim">1609dd2d5cfff5e82d1ea62f2cdee2f1</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label err">RESTClient("bad_key_deliberately_invalid")</span>
+        <div class="card-title">An invalid key isn't a generic failure &mdash; it's a specific, self-explanatory 401.</div>
+        <div class="console">
+<span class="k">Status</span>       <span class="hlerr">401 · Unknown API Key</span>
+<span class="k">Request-Id</span>   <span class="v dim">e669eabdff8eb5613c59a5a64955edf7</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">get_previous_close_agg("ZZZZNOTAREALTICKER")</span>
+        <div class="card-title">Not a 404 &mdash; a 200 with an empty result set. Code that only catches exceptions will miss this.</div>
+        <div class="console">
+<span class="k">Status</span>       <span class="hl">200 OK</span>
+<span class="k">resultsCount</span> <span class="v">0</span>
+<span class="k">Request-Id</span>   <span class="v dim">dda7f22565e8b2ab0d2b8d5801cf8a1a</span>
         </div>
       </div>
 
@@ -382,7 +404,7 @@
       <span class="tag">Also verified</span>
       <div>
         <p>The same key, one endpoint over: <span class="mono">get_last_trade("AAPL")</span> correctly fails &mdash; auth succeeds (the key itself is valid, and <span class="mono">get_previous_close_agg</span>/<span class="mono">list_aggs</span> prove that), but the free plan doesn't include real-time last-trade data. The error is specific enough to self-serve from.</p>
-        <div class="errline">{"status":"NOT_AUTHORIZED","request_id":"159b118e893281cf01610dca4c16839b","message":"You are not entitled to this data. Please upgrade your plan at https://massive.com/pricing"}</div>
+        <div class="errline">{"status":"NOT_AUTHORIZED","request_id":"1609dd2d5cfff5e82d1ea62f2cdee2f1","message":"You are not entitled to this data. Please upgrade your plan at https://massive.com/pricing"}</div>
       </div>
     </div>
   </section>
@@ -454,6 +476,39 @@
         body: '{"ticker":"AAPL","close":319.97,"open":328.305,\n "high":328.93,"low":317.86,"volume":39606884}'
       }
     },
+    aggs: {
+      targetX: 790, isErr: false,
+      arrow4Text: "200 OK",
+      node4Sub: "GET /v2/aggs/…/range/1/day",
+      reach5: true,
+      result: {
+        ok: true,
+        title: "200 OK · list[Agg] × 5 (auto-paginated)",
+        body: '[{"date":"2026-08-31","close":316.85},\n {"date":"2026-09-01","close":325.13},\n {"date":"2026-09-02","close":324.96},\n {"date":"2026-09-03","close":328.21},\n {"date":"2026-09-04","close":319.97}]'
+      }
+    },
+    err401: {
+      targetX: 618, isErr: true,
+      arrow4Text: "401",
+      node4Sub: "GET /v2/aggs/…/prev (bad key)",
+      reach5: false,
+      result: {
+        ok: false,
+        title: "401 · Unknown API Key",
+        body: '{"status":"ERROR",\n "request_id":"e669eabdff8eb5613c59a5a64955edf7",\n "error":"Unknown API Key"}'
+      }
+    },
+    emptyresult: {
+      targetX: 790, isErr: false,
+      arrow4Text: "200 OK",
+      node4Sub: "GET /v2/aggs/…/prev (unknown ticker)",
+      reach5: true,
+      result: {
+        ok: true,
+        title: "200 OK · empty result set (not a 404)",
+        body: '{"ticker":"ZZZZNOTAREALTICKER","queryCount":0,\n "resultsCount":0,"adjusted":true,"status":"OK",\n "request_id":"dda7f22565e8b2ab0d2b8d5801cf8a1a"}'
+      }
+    },
     err403: {
       targetX: 618, isErr: true,
       arrow4Text: "403",
@@ -462,7 +517,7 @@
       result: {
         ok: false,
         title: "403 · NOT_AUTHORIZED",
-        body: '{"status":"NOT_AUTHORIZED",\n "request_id":"159b118e893281cf01610dca4c16839b",\n "message":"You are not entitled to this data.\n  Please upgrade your plan at massive.com/pricing"}'
+        body: '{"status":"NOT_AUTHORIZED",\n "request_id":"1609dd2d5cfff5e82d1ea62f2cdee2f1",\n "message":"You are not entitled to this data.\n  Please upgrade your plan at massive.com/pricing"}'
       }
     },
     err429: {

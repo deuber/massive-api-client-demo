@@ -31,10 +31,16 @@
     }
   ],
   "news": null,
-  "news_error": "rate limited (free tier — 429 on every attempt across multiple retries and minutes of spacing)",
+  "news_error": "rate limited (free tier \u2014 429 on every attempt across multiple retries and minutes of spacing)",
   "last_trade_error": {
     "status": "NOT_AUTHORIZED",
-    "request_id": "159b118e893281cf01610dca4c16839b",
+    "request_id": "1609dd2d5cfff5e82d1ea62f2cdee2f1",
     "message": "You are not entitled to this data. Please upgrade your plan at https://massive.com/pricing"
-  }
+  },
+  "bad_key_error": {
+    "status": "ERROR",
+    "request_id": "e669eabdff8eb5613c59a5a64955edf7",
+    "error": "Unknown API Key"
+  },
+  "unknown_ticker_result": []
 }

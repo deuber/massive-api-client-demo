@@ -11,6 +11,10 @@ Demonstrates:
   - error handling on a call the account's plan doesn't cover (get_last_trade)
   - a request trace, for the "what a support engineer looks at when a call
     fails" view
+  - what an invalid API key actually returns (401, not a generic failure)
+  - what an unknown ticker actually returns (a 200 with an empty result set,
+    not a 404 - a real "silent failure" gotcha worth knowing before you ship
+    code that only checks for a raised exception)
 
 Writes its captured results to results.json so a static page can render
 them without ever needing the API key itself.
@@ -108,6 +112,27 @@ def main() -> None:
     except MaxRetryError as e:
         results["last_trade_error"] = {"raw": "rate limited (free tier — 429 on every attempt across multiple retries and minutes of spacing)"}
         print(f"[get_last_trade] rate limited: {e}")
+    time.sleep(CALL_SPACING_SECONDS)
+
+    # 5. An invalid key isn't a generic failure - it's a specific 401.
+    # Doesn't touch rate-limit budget: auth is checked before that accounting.
+    bad_client = RESTClient("bad_key_deliberately_invalid_12345")
+    try:
+        bad_client.get_previous_close_agg(TICKER)
+        results["bad_key_error"] = None
+    except BadResponse as e:
+        try:
+            results["bad_key_error"] = json.loads(str(e))
+        except json.JSONDecodeError:
+            results["bad_key_error"] = {"raw": str(e)}
+        print(f"[bad api key] failed as expected: {results['bad_key_error']}")
+    time.sleep(CALL_SPACING_SECONDS)
+
+    # 6. An unknown ticker isn't a 404 - it's a 200 with an empty result set.
+    # A caller who only catches exceptions will miss this silently.
+    empty = client.get_previous_close_agg("ZZZZNOTAREALTICKER")
+    results["unknown_ticker_result"] = empty if isinstance(empty, list) else [empty]
+    print(f"[unknown ticker] no error raised - got back: {results['unknown_ticker_result']}")
 
     out_path = os.path.join(os.path.dirname(__file__), "..", "results.json")
     with open(out_path, "w") as f:
