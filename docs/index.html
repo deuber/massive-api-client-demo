@@ -10,40 +10,22 @@
 <style>
   :root{
     color-scheme: light;
-    --bg:#F2F4EE;
-    --surface:#FFFFFF;
-    --surface-2:#FAFBF6;
-    --ink:#141A11;
-    --ink-muted:#565F51;
-    --ink-faint:#8B9382;
-    --accent:#A97A2A;
-    --accent-ink:#5E4315;
-    --err:#B4573F;
-    --border:#DCE1D1;
-    --border-strong:#C4CBB6;
-    --console-bg:#12150D;
-    --console-ink:#CDD3C1;
-    --console-accent:#E0A94D;
-    --console-border:#2A2E20;
+    --bg:#F2F4EE; --surface:#FFFFFF; --surface-2:#FAFBF6;
+    --ink:#141A11; --ink-muted:#565F51; --ink-faint:#8B9382;
+    --accent:#A97A2A; --accent-ink:#5E4315; --err:#B4573F;
+    --border:#DCE1D1; --border-strong:#C4CBB6;
+    --console-bg:#12150D; --console-ink:#CDD3C1; --console-accent:#E0A94D; --console-border:#2A2E20;
     --shadow: 0 1px 2px rgba(20,26,17,0.04), 0 6px 20px -12px rgba(20,26,17,0.18);
-    --note-bg:#EEF4E4;
-    --note-border:#CBDCB2;
+    --note-bg:#EEF4E4; --note-border:#CBDCB2;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#14160F;
-      --surface:#1B1F15;
-      --surface-2:#20251A;
-      --ink:#ECEEE3;
-      --ink-muted:#A7AE9A;
-      --ink-faint:#6E7563;
-      --accent:#D7A24B;
-      --accent-ink:#F3D9A1;
-      --border:#2B3023;
-      --border-strong:#3B412F;
+      --bg:#14160F; --surface:#1B1F15; --surface-2:#20251A;
+      --ink:#ECEEE3; --ink-muted:#A7AE9A; --ink-faint:#6E7563;
+      --accent:#D7A24B; --accent-ink:#F3D9A1;
+      --border:#2B3023; --border-strong:#3B412F;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -14px rgba(0,0,0,0.55);
-      --note-bg:#1E2416;
-      --note-border:#333C25;
+      --note-bg:#1E2416; --note-border:#333C25;
     }
   }
   :root[data-theme="dark"]{
@@ -63,37 +45,21 @@
   .mono{ font-family:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace; }
   .page{ max-width:920px; margin:0 auto; padding:56px 28px 80px; }
 
-  header.masthead{
-    display:flex; flex-direction:column; gap:14px;
-    padding-bottom:32px; border-bottom:1px solid var(--border-strong);
-  }
-  .eyebrow{
-    font-family:"IBM Plex Mono", monospace; font-size:11.5px; font-weight:500;
-    letter-spacing:0.14em; text-transform:uppercase; color:var(--accent-ink);
-  }
-  h1{
-    font-family:"Fraunces", Georgia, serif; font-optical-sizing:auto; font-weight:650;
-    font-size:clamp(34px, 5vw, 48px); line-height:1.04; letter-spacing:-0.01em;
-    margin:0; text-wrap:balance; color:var(--ink);
-  }
+  header.masthead{ display:flex; flex-direction:column; gap:14px; padding-bottom:32px; border-bottom:1px solid var(--border-strong); }
+  .eyebrow{ font-family:"IBM Plex Mono", monospace; font-size:11.5px; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent-ink); }
+  h1{ font-family:"Fraunces", Georgia, serif; font-optical-sizing:auto; font-weight:650; font-size:clamp(34px, 5vw, 48px); line-height:1.04; letter-spacing:-0.01em; margin:0; text-wrap:balance; color:var(--ink); }
   .dek{ font-size:16.5px; line-height:1.55; color:var(--ink-muted); max-width:62ch; margin:0; }
   .meta-row{ display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:6px; }
   .meta-row span{ font-family:"IBM Plex Mono", monospace; font-size:12px; color:var(--ink-faint); white-space:nowrap; }
   .meta-row span b{ color:var(--ink-muted); font-weight:500; }
 
-  .note{
-    background:var(--note-bg); border:1px solid var(--note-border); border-radius:10px;
-    padding:12px 16px; font-size:13px; line-height:1.55; margin-top:24px;
-  }
+  .note{ background:var(--note-bg); border:1px solid var(--note-border); border-radius:10px; padding:12px 16px; font-size:13px; line-height:1.55; margin-top:24px; }
   .note a{ color:var(--accent-ink); }
   .note code{ background:var(--surface); padding:1px 5px; border-radius:4px; }
 
   section{ margin-top:52px; }
   .section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:18px; }
-  h2{
-    font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:22px;
-    letter-spacing:-0.005em; margin:0; color:var(--ink);
-  }
+  h2{ font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:22px; letter-spacing:-0.005em; margin:0; color:var(--ink); }
   .section-note{ font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--ink-faint); white-space:nowrap; }
 
   .flow-toggle{ display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
@@ -119,7 +85,6 @@
   .node-miss rect{ stroke-dasharray:4 3; }
   @media (prefers-reduced-motion: reduce){ #pulse, #progress-line{ transition:none; } }
 
-  .flow-result{ min-height:0; }
   .flow-result .chip{
     display:inline-flex; align-items:center; gap:8px;
     font-family:"IBM Plex Mono", monospace; font-size:12px;
@@ -129,50 +94,39 @@
   .flow-result .chip.err{ border-color:color-mix(in srgb, var(--err) 40%, transparent); }
   .flow-result .dot{ width:7px; height:7px; border-radius:99px; background:var(--accent); flex:none; display:inline-block; }
   .flow-result .dot.err{ background:var(--err); }
-  .flow-result pre{
+  .pre-wrap{ position:relative; }
+  .pre-wrap pre{
     margin:8px 0 0; font-family:"IBM Plex Mono", monospace; font-size:11.5px; line-height:1.55;
-    background:var(--console-bg); color:var(--console-ink); border-radius:8px; padding:10px 12px;
+    background:var(--console-bg); color:var(--console-ink); border-radius:8px; padding:10px 34px 10px 12px;
     white-space:pre-wrap; word-break:break-word;
   }
-
-  figure.diagram{
-    margin:0; background:var(--surface); border:1px solid var(--border); border-radius:10px;
-    padding:26px 20px 18px; box-shadow:var(--shadow);
+  .copy-btn{
+    position:absolute; top:6px; right:6px; font-family:"IBM Plex Mono", monospace; font-size:10.5px;
+    padding:3px 7px; border-radius:5px; border:1px solid var(--console-border); background:transparent;
+    color:var(--console-ink); opacity:0.6; cursor:pointer;
   }
+  .copy-btn:hover{ opacity:1; border-color:var(--accent); }
+
+  figure.diagram{ margin:0; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:26px 20px 18px; box-shadow:var(--shadow); }
   figure.diagram svg{ display:block; width:100%; height:auto; color:var(--ink); }
   figure.diagram .accentline{ color:var(--accent); }
-  figcaption{
-    margin-top:14px; font-size:13.5px; color:var(--ink-muted); line-height:1.5;
-    border-top:1px solid var(--border); padding-top:12px;
-  }
+  figcaption{ margin-top:14px; font-size:13.5px; color:var(--ink-muted); line-height:1.5; border-top:1px solid var(--border); padding-top:12px; }
 
   .grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
   @media (max-width:680px){ .grid{ grid-template-columns:1fr; } }
-  .card{
-    background:var(--surface); border:1px solid var(--border); border-radius:10px;
-    padding:20px 20px 18px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:12px;
-  }
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:20px 20px 18px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:12px; }
   .card-label{
     font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--accent-ink);
     background:color-mix(in srgb, var(--accent) 14%, transparent);
     border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);
     padding:3px 8px; border-radius:5px; width:fit-content; letter-spacing:0.01em;
   }
-  .card-label.err{
-    color:var(--err); background:color-mix(in srgb, var(--err) 12%, transparent);
-    border-color:color-mix(in srgb, var(--err) 35%, transparent);
-  }
+  .card-label.err{ color:var(--err); background:color-mix(in srgb, var(--err) 12%, transparent); border-color:color-mix(in srgb, var(--err) 35%, transparent); }
   .card-title{ font-size:14px; color:var(--ink-muted); line-height:1.4; }
 
-  .stat-value{
-    font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:44px;
-    letter-spacing:-0.01em; line-height:1; color:var(--ink); font-variant-numeric:tabular-nums;
-  }
+  .stat-value{ font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:44px; letter-spacing:-0.01em; line-height:1; color:var(--ink); font-variant-numeric:tabular-nums; }
   .stat-delta{ font-family:"IBM Plex Mono", monospace; font-size:13px; color:var(--accent-ink); margin-top:2px; }
-  .stat-grid{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:6px;
-    padding-top:12px; border-top:1px solid var(--border);
-  }
+  .stat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:6px; padding-top:12px; border-top:1px solid var(--border); }
   .stat-grid div{ display:flex; flex-direction:column; gap:2px; }
   .stat-grid .k{ font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-faint); }
   .stat-grid .v{ font-family:"IBM Plex Mono", monospace; font-size:13px; color:var(--ink); font-variant-numeric:tabular-nums; }
@@ -194,37 +148,24 @@
   .tooltip.show{ opacity:1; }
   .hit{ fill:transparent; cursor:crosshair; }
 
-  .console{
-    background:var(--console-bg); color:var(--console-ink); border:1px solid var(--console-border);
-    border-radius:8px; padding:14px 15px; font-family:"IBM Plex Mono", monospace; font-size:12px;
-    line-height:1.65; overflow-x:auto;
-  }
+  .console{ background:var(--console-bg); color:var(--console-ink); border:1px solid var(--console-border); border-radius:8px; padding:14px 15px; font-family:"IBM Plex Mono", monospace; font-size:12px; line-height:1.65; overflow-x:auto; }
   .console .k{ color:#8A9280; }
   .console .v{ color:var(--console-ink); }
   .console .hl{ color:var(--console-accent); }
   .console .hlerr{ color:#E08769; }
   .console .dim{ color:#5C6353; }
+  .console-row{ display:flex; gap:8px; }
+  .console-row .k{ flex:0 0 108px; }
 
-  .aside{
-    margin-top:16px; display:grid; grid-template-columns:auto 1fr; gap:14px 16px; align-items:start;
-    background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:18px 20px;
-  }
-  .aside .tag{
-    font-family:"IBM Plex Mono", monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
-    color:var(--accent-ink); padding-top:2px; white-space:nowrap;
-  }
+  .aside{ margin-top:16px; display:grid; grid-template-columns:auto 1fr; gap:14px 16px; align-items:start; background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:18px 20px; }
+  .aside .tag{ font-family:"IBM Plex Mono", monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent-ink); padding-top:2px; white-space:nowrap; }
   .aside p{ margin:0 0 8px; font-size:14px; line-height:1.55; color:var(--ink-muted); }
-  .aside .errline{
-    font-family:"IBM Plex Mono", monospace; font-size:12px; color:var(--ink); background:var(--surface);
-    border:1px solid var(--border); border-radius:6px; padding:8px 10px; white-space:pre-wrap; word-break:break-word;
-  }
+  .aside .errline{ font-family:"IBM Plex Mono", monospace; font-size:12px; color:var(--ink); background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:8px 10px; white-space:pre-wrap; word-break:break-word; }
   @media (max-width:680px){ .aside{ grid-template-columns:1fr; } .aside .tag{ white-space:normal; } }
 
-  footer{
-    margin-top:56px; padding-top:20px; border-top:1px solid var(--border-strong);
-    font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--ink-faint); line-height:1.7;
-  }
+  footer{ margin-top:56px; padding-top:20px; border-top:1px solid var(--border-strong); font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--ink-faint); line-height:1.7; }
   footer a{ color:var(--ink-faint); }
+  .empty{ padding:24px; text-align:center; color:var(--ink-faint); font-size:13px; }
 </style>
 </head>
 <body>
@@ -234,19 +175,17 @@
     <div class="eyebrow">Personal project &middot; API integration</div>
     <h1>Getting the Massive client working, end to end</h1>
     <p class="dek">An original script using <span class="mono">massive-com/client-python</span> (installed via <span class="mono">pip install massive</span>) to make real, authenticated calls against the live Massive REST API &mdash; including what its free tier actually does when you hit a plan limit or a rate limit.</p>
-    <div class="meta-row">
-      <span><b>Verified</b> Sep 8, 2026</span>
-      <span><b>Host</b> api.massive.com</span>
-      <span><b>Runtime</b> Python 3.9 / venv</span>
-      <span><b>Package</b> massive, pip-installed</span>
-      <span><b>Ticker used</b> AAPL</span>
+    <div class="meta-row" id="metaRow">
+      <span><b>Verified</b> loading&hellip;</span>
     </div>
     <div class="note">
       Every number on this page is real output from an actual run of
       <code>scripts/run_demo.py</code> in
       <a href="https://github.com/deuber/massive-api-client-demo" target="_blank" rel="noopener">this repo</a>
-      &mdash; including the parts that didn't go as planned. <code>results.json</code> in the repo
-      is the raw captured output this page renders; nothing here is simulated or invented.
+      &mdash; including the parts that didn't go as planned. This page reads
+      <code>results.json</code> directly (fetched below) and renders whatever it finds,
+      so it can only ever show what actually happened on the last run &mdash; it
+      auto-refreshes via a scheduled GitHub Action, never by hand-editing this page.
     </div>
   </header>
 
@@ -256,15 +195,8 @@
       <span class="section-note">client.get_previous_close_agg("AAPL")</span>
     </div>
 
-    <div class="flow-toggle" role="group" aria-label="Choose which real call to animate">
-      <button type="button" class="flow-btn active" data-path="success" aria-pressed="true">Run: previous close &middot; 200 OK</button>
-      <button type="button" class="flow-btn" data-path="aggs" aria-pressed="false">Run: daily bars &middot; 200 OK</button>
-      <button type="button" class="flow-btn" data-path="err403" aria-pressed="false">Run: last trade &middot; 403</button>
-      <button type="button" class="flow-btn" data-path="err429" aria-pressed="false">Run: news &middot; 429</button>
-      <button type="button" class="flow-btn" data-path="err401" aria-pressed="false">Run: bad key &middot; 401</button>
-      <button type="button" class="flow-btn" data-path="emptyresult" aria-pressed="false">Run: unknown ticker &middot; 200 (empty)</button>
-    </div>
-    <p style="margin:0 0 14px; font-size:12px; color:var(--ink-faint);">This page is static (GitHub Pages) &mdash; these buttons replay six real, pre-recorded outcomes from the Sep 8, 2026 run below; they don't make a live API call from your browser.</p>
+    <div class="flow-toggle" role="group" aria-label="Choose which real call to animate" id="flowToggle"></div>
+    <p style="margin:0 0 14px; font-size:12px; color:var(--ink-faint);" id="flowCaption"></p>
 
     <figure class="diagram">
       <svg viewBox="0 0 860 210" role="img" aria-label="A key stored in a chmod 600 file on the local machine is read into the Python process environment, passed to RESTClient, sent as a Bearer header across the network to api.massive.com, and the JSON response is parsed back into a typed Python object.">
@@ -315,120 +247,119 @@
 
   <section aria-labelledby="evidence-h">
     <div class="section-head">
-      <h2 id="evidence-h">Six calls, three shapes of success, three kinds of failure</h2>
-      <span class="section-note">all against live data, Sep 8, 2026</span>
+      <h2 id="evidence-h">What the run actually returned</h2>
+      <span class="section-note" id="evidenceNote">loading&hellip;</span>
     </div>
 
-    <div class="grid">
-
-      <div class="card">
-        <span class="card-label">get_previous_close_agg("AAPL")</span>
-        <div>
-          <div class="stat-value">$319.97</div>
-          <div class="stat-delta">&minus;$8.34 from open (&minus;2.54%)</div>
-        </div>
-        <div class="stat-grid">
-          <div><span class="k">Open</span><span class="v">328.31</span></div>
-          <div><span class="k">High</span><span class="v">328.93</span></div>
-          <div><span class="k">Low</span><span class="v">317.86</span></div>
-          <div><span class="k">Vol</span><span class="v">39.6M</span></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <span class="card-label">list_aggs() &middot; 1 request</span>
-        <div class="card-title">Auto-paginating generator, sliced to the last 5 daily bars.</div>
-        <div class="chart-wrap">
-          <svg id="chart" viewBox="0 0 380 150" role="img" aria-label="AAPL daily close, August 31 to September 4, 2026: 316.85, 325.13, 324.96, 328.21, 319.97.">
-            <line x1="0" y1="14" x2="380" y2="14" class="chart-grid-line"/>
-            <line x1="0" y1="70" x2="380" y2="70" class="chart-grid-line"/>
-            <line x1="0" y1="126" x2="380" y2="126" class="chart-grid-line"/>
-            <path class="chart-area" d="M10,109.4 L102.5,38.8 L195,42.5 L287.5,14.9 L370,55.9 L370,140 L10,140 Z"/>
-            <path class="chart-line" d="M10,109.4 L102.5,38.8 L195,42.5 L287.5,14.9 L370,55.9"/>
-            <circle class="chart-dot" cx="10" cy="109.4" r="4"/>
-            <circle class="chart-dot" cx="102.5" cy="38.8" r="4"/>
-            <circle class="chart-dot" cx="195" cy="42.5" r="4"/>
-            <circle class="chart-dot" cx="287.5" cy="14.9" r="4"/>
-            <circle class="chart-dot end" cx="370" cy="55.9" r="4.5"/>
-            <text x="10" y="145" class="chart-axis-label" text-anchor="start">Aug 31</text>
-            <text x="370" y="145" class="chart-axis-label" text-anchor="end">Sep 4</text>
-            <g id="chart-hits"></g>
-          </svg>
-          <div class="tooltip" id="chart-tooltip"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <span class="card-label err">list_ticker_news(published_utc.gte)</span>
-        <div class="card-title">429 on every attempt, spaced minutes apart &mdash; a real free-tier rate limit, not a one-off blip.</div>
-        <div class="console">
-<span class="k">Request URL</span>  <span class="v">https://api.massive.com/v2/reference/news?ticker=AAPL&amp;limit=3</span>
-<span class="k">Status</span>       <span class="hlerr">429 Too Many Requests</span>
-<span class="k">Retries</span>      <span class="v dim">exhausted client's built-in retry budget</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <span class="card-label">RESTClient(trace=True)</span>
-        <div class="card-title">What a support engineer actually looks at when a call fails.</div>
-        <div class="console">
-<span class="k">Request URL</span>  <span class="v">https://api.massive.com/v2/last/trade/AAPL</span>
-<span class="k">Authorization</span> <span class="v">Bearer REDACTED</span>
-<span class="k">Status</span>       <span class="hlerr">403 NOT_AUTHORIZED</span>
-<span class="k">Request-Id</span>   <span class="v dim">1609dd2d5cfff5e82d1ea62f2cdee2f1</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <span class="card-label err">RESTClient("bad_key_deliberately_invalid")</span>
-        <div class="card-title">An invalid key isn't a generic failure &mdash; it's a specific, self-explanatory 401.</div>
-        <div class="console">
-<span class="k">Status</span>       <span class="hlerr">401 · Unknown API Key</span>
-<span class="k">Request-Id</span>   <span class="v dim">e669eabdff8eb5613c59a5a64955edf7</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <span class="card-label">get_previous_close_agg("ZZZZNOTAREALTICKER")</span>
-        <div class="card-title">Not a 404 &mdash; a 200 with an empty result set. Code that only catches exceptions will miss this.</div>
-        <div class="console">
-<span class="k">Status</span>       <span class="hl">200 OK</span>
-<span class="k">resultsCount</span> <span class="v">0</span>
-<span class="k">Request-Id</span>   <span class="v dim">dda7f22565e8b2ab0d2b8d5801cf8a1a</span>
-        </div>
-      </div>
-
+    <div class="grid" id="evidenceGrid">
+      <div class="empty">Fetching results.json&hellip;</div>
     </div>
 
-    <div class="aside">
+    <div class="aside" id="asideBlock" hidden>
       <span class="tag">Also verified</span>
       <div>
-        <p>The same key, one endpoint over: <span class="mono">get_last_trade("AAPL")</span> correctly fails &mdash; auth succeeds (the key itself is valid, and <span class="mono">get_previous_close_agg</span>/<span class="mono">list_aggs</span> prove that), but the free plan doesn't include real-time last-trade data. The error is specific enough to self-serve from.</p>
-        <div class="errline">{"status":"NOT_AUTHORIZED","request_id":"1609dd2d5cfff5e82d1ea62f2cdee2f1","message":"You are not entitled to this data. Please upgrade your plan at https://massive.com/pricing"}</div>
+        <p id="asideText"></p>
+        <div class="errline" id="asideJson"></div>
       </div>
     </div>
   </section>
 
-  <footer>
-    massive-com/client-python, installed via <code class="mono">pip install massive</code> &middot; all calls shown above hit api.massive.com live on Sep 8, 2026 &middot; API key loaded from a chmod-600 file, never committed or logged &middot; source + raw results: <a href="https://github.com/deuber/massive-api-client-demo" target="_blank" rel="noopener">github.com/deuber/massive-api-client-demo</a>
+  <footer id="footerBlock">
+    massive-com/client-python, installed via <code class="mono">pip install massive</code> &middot; API key loaded from a chmod-600 file (or a GitHub Actions secret in CI), never committed or logged &middot; source + raw results: <a href="https://github.com/deuber/massive-api-client-demo" target="_blank" rel="noopener">github.com/deuber/massive-api-client-demo</a>
   </footer>
-
 </div>
 
 <script>
-(function(){
-  var points = [
-    {x:10,    y:109.4, date:"Mon, Aug 31", close:316.85},
-    {x:102.5, y:38.8,  date:"Tue, Sep 1",  close:325.13},
-    {x:195,   y:42.5,  date:"Wed, Sep 2",  close:324.96},
-    {x:287.5, y:14.9,  date:"Thu, Sep 3",  close:328.21},
-    {x:370,   y:55.9,  date:"Fri, Sep 4",  close:319.97}
-  ];
+"use strict";
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+  });
+}
+
+function fmtDate(iso){
+  var d = new Date(iso + "T00:00:00Z");
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+}
+
+function freshness(isoTimestamp){
+  if (!isoTimestamp) return "";
+  var then = new Date(isoTimestamp).getTime();
+  var diffMs = Date.now() - then;
+  var hours = diffMs / 3600000;
+  if (hours < 1) return "verified less than an hour ago";
+  if (hours < 24) return "verified " + Math.round(hours) + "h ago";
+  return "verified " + Math.round(hours / 24) + "d ago";
+}
+
+function attachCopyButtons(root){
+  root.querySelectorAll(".pre-wrap").forEach(function(wrap){
+    if (wrap.querySelector(".copy-btn")) return;
+    var pre = wrap.querySelector("pre");
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "copy-btn";
+    btn.textContent = "copy";
+    btn.addEventListener("click", function(){
+      var text = pre.textContent;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function(){
+          btn.textContent = "copied";
+          setTimeout(function(){ btn.textContent = "copy"; }, 1200);
+        }).catch(function(){ btn.textContent = "failed"; });
+      }
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+function preBlock(text){
+  return '<div class="pre-wrap"><pre>' + escapeHtml(text) + "</pre></div>";
+}
+
+// ---- chart geometry, computed from whatever daily_bars actually came back ----
+function computeChartPoints(bars){
+  var closes = bars.map(function(b){ return b.close; });
+  var min = Math.min.apply(null, closes), max = Math.max.apply(null, closes);
+  var topY = 14, botY = 126, leftX = 10, rightX = 370;
+  var n = bars.length;
+  return bars.map(function(b, i){
+    var x = n === 1 ? leftX : leftX + (i * (rightX - leftX)) / (n - 1);
+    var y = max === min ? (topY + botY) / 2 : botY - ((b.close - min) / (max - min)) * (botY - topY);
+    var d = new Date(b.date + "T00:00:00Z");
+    var label = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: "UTC" });
+    return { x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10, date: label, close: b.close, isoDate: b.date };
+  });
+}
+
+function renderChart(bars){
+  var points = computeChartPoints(bars);
   var svg = document.getElementById("chart");
+  var line = points.map(function(p, i){ return (i === 0 ? "M" : "L") + p.x + "," + p.y; }).join(" ");
+  var area = line + " L" + points[points.length - 1].x + ",140 L" + points[0].x + ",140 Z";
+  var dots = points.map(function(p, i){
+    var cls = i === points.length - 1 ? "chart-dot end" : "chart-dot";
+    var r = i === points.length - 1 ? 4.5 : 4;
+    return '<circle class="' + cls + '" cx="' + p.x + '" cy="' + p.y + '" r="' + r + '"/>';
+  }).join("");
+
+  svg.innerHTML =
+    '<line x1="0" y1="14" x2="380" y2="14" class="chart-grid-line"/>' +
+    '<line x1="0" y1="70" x2="380" y2="70" class="chart-grid-line"/>' +
+    '<line x1="0" y1="126" x2="380" y2="126" class="chart-grid-line"/>' +
+    '<path class="chart-area" d="' + area + '"/>' +
+    '<path class="chart-line" d="' + line + '"/>' +
+    dots +
+    '<text x="10" y="145" class="chart-axis-label" text-anchor="start">' + escapeHtml(points[0].date) + '</text>' +
+    '<text x="370" y="145" class="chart-axis-label" text-anchor="end">' + escapeHtml(points[points.length - 1].date) + '</text>' +
+    '<g id="chart-hits"></g>';
+
+  svg.setAttribute("aria-label", "AAPL daily close, " + points[0].date + " to " + points[points.length - 1].date + ": " + points.map(function(p){ return p.close; }).join(", ") + ".");
+
   var hits = document.getElementById("chart-hits");
   var tooltip = document.getElementById("chart-tooltip");
   var ns = "http://www.w3.org/2000/svg";
-
   points.forEach(function(p){
     var c = document.createElementNS(ns, "circle");
     c.setAttribute("cx", p.x);
@@ -439,7 +370,6 @@
     c.addEventListener("mouseleave", hideTip);
     hits.appendChild(c);
   });
-
   function showTip(p){
     var rect = svg.getBoundingClientRect();
     var wrap = svg.parentElement.getBoundingClientRect();
@@ -450,10 +380,154 @@
     tooltip.classList.add("show");
   }
   function hideTip(){ tooltip.classList.remove("show"); }
-})();
+}
 
-(function(){
-  var btns = document.querySelectorAll(".flow-btn");
+// ---- build one card per finding, entirely from whatever results.json contains ----
+function buildEvidenceCards(data){
+  var cards = [];
+
+  if (data.previous_close) {
+    var pc = data.previous_close;
+    var delta = pc.close - pc.open;
+    var deltaPct = pc.open ? (delta / pc.open) * 100 : 0;
+    var sign = delta >= 0 ? "+" : "−";
+    cards.push(
+      '<div class="card"><span class="card-label">get_previous_close_agg("' + data.ticker + '")</span>' +
+      '<div><div class="stat-value">$' + pc.close.toFixed(2) + '</div>' +
+      '<div class="stat-delta">' + sign + '$' + Math.abs(delta).toFixed(2) + ' from open (' + sign + Math.abs(deltaPct).toFixed(2) + '%)</div></div>' +
+      '<div class="stat-grid">' +
+      '<div><span class="k">Open</span><span class="v">' + pc.open.toFixed(2) + '</span></div>' +
+      '<div><span class="k">High</span><span class="v">' + pc.high.toFixed(2) + '</span></div>' +
+      '<div><span class="k">Low</span><span class="v">' + pc.low.toFixed(2) + '</span></div>' +
+      '<div><span class="k">Vol</span><span class="v">' + (pc.volume / 1e6).toFixed(1) + 'M</span></div>' +
+      '</div></div>'
+    );
+  }
+
+  if (data.daily_bars && data.daily_bars.length) {
+    cards.push(
+      '<div class="card"><span class="card-label">list_aggs() &middot; 1 request</span>' +
+      '<div class="card-title">Auto-paginating generator, sliced to the last ' + data.daily_bars.length + ' daily bars.</div>' +
+      '<div class="chart-wrap"><svg id="chart" viewBox="0 0 380 150" role="img"></svg><div class="tooltip" id="chart-tooltip"></div></div>' +
+      '</div>'
+    );
+  }
+
+  if (data.news && data.news.length) {
+    cards.push(
+      '<div class="card"><span class="card-label">list_ticker_news(published_utc.gte)</span>' +
+      '<div class="card-title">Filter operator from the README, applied to a live query.</div>' +
+      '<ul class="news-list" style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;">' +
+      data.news.map(function(t){ return '<li style="font-size:14px;line-height:1.45;padding-left:14px;border-left:2px solid var(--border-strong);">' + escapeHtml(t) + '</li>'; }).join("") +
+      '</ul></div>'
+    );
+  } else if (data.news_error) {
+    cards.push(
+      '<div class="card"><span class="card-label err">list_ticker_news(published_utc.gte)</span>' +
+      '<div class="card-title">' + escapeHtml(data.news_error) + '</div>' +
+      '<div class="console"><div class="console-row"><span class="k">Request URL</span><span class="v">https://api.massive.com/v2/reference/news?ticker=' + data.ticker + '&amp;limit=3</span></div>' +
+      '<div class="console-row"><span class="k">Status</span><span class="hlerr">429 Too Many Requests</span></div></div></div>'
+    );
+  }
+
+  if (data.last_trade_error) {
+    var lt = data.last_trade_error;
+    var isRate = lt.raw && /rate limited/i.test(lt.raw);
+    cards.push(
+      '<div class="card"><span class="card-label err">RESTClient(trace=True)</span>' +
+      '<div class="card-title">What a support engineer actually looks at when a call fails.</div>' +
+      '<div class="console"><div class="console-row"><span class="k">Request URL</span><span class="v">https://api.massive.com/v2/last/trade/' + data.ticker + '</span></div>' +
+      '<div class="console-row"><span class="k">Status</span><span class="hlerr">' + (isRate ? "429 Too Many Requests" : (lt.status || "Error")) + '</span></div>' +
+      (lt.request_id ? '<div class="console-row"><span class="k">Request-Id</span><span class="v dim">' + lt.request_id + '</span></div>' : '') +
+      '</div></div>'
+    );
+  }
+
+  if (data.bad_key_error) {
+    var bk = data.bad_key_error;
+    cards.push(
+      '<div class="card"><span class="card-label err">RESTClient("bad_key_deliberately_invalid")</span>' +
+      '<div class="card-title">An invalid key isn\'t a generic failure &mdash; it\'s a specific, self-explanatory error.</div>' +
+      '<div class="console"><div class="console-row"><span class="k">Status</span><span class="hlerr">' + (bk.error || bk.status || "Error") + '</span></div>' +
+      (bk.request_id ? '<div class="console-row"><span class="k">Request-Id</span><span class="v dim">' + bk.request_id + '</span></div>' : '') +
+      '</div></div>'
+    );
+  }
+
+  if (data.unknown_ticker_result) {
+    var ur = data.unknown_ticker_result;
+    cards.push(
+      '<div class="card"><span class="card-label">get_previous_close_agg("' + (ur.ticker || "UNKNOWN") + '")</span>' +
+      '<div class="card-title">Not a 404 &mdash; a 200 with an empty result set. Code that only catches exceptions will miss this.</div>' +
+      '<div class="console"><div class="console-row"><span class="k">Status</span><span class="hl">' + (ur.status || "OK") + '</span></div>' +
+      '<div class="console-row"><span class="k">resultsCount</span><span class="v">' + (ur.resultsCount != null ? ur.resultsCount : 0) + '</span></div>' +
+      (ur.request_id ? '<div class="console-row"><span class="k">Request-Id</span><span class="v dim">' + ur.request_id + '</span></div>' : '') +
+      '</div></div>'
+    );
+  }
+
+  return cards;
+}
+
+// ---- build the flow-toggle diagram states entirely from results.json ----
+function buildFlowPaths(data){
+  var paths = {};
+
+  if (data.previous_close) {
+    paths.success = {
+      label: "Run: previous close · 200 OK", targetX: 790, isErr: false,
+      arrow4Text: "200 OK", node4Sub: "GET /v2/aggs/…/prev", reach5: true,
+      result: { ok: true, title: "200 OK · PreviousCloseAgg", body: JSON.stringify(data.previous_close, null, 1) }
+    };
+  }
+  if (data.daily_bars && data.daily_bars.length) {
+    paths.aggs = {
+      label: "Run: daily bars · 200 OK", targetX: 790, isErr: false,
+      arrow4Text: "200 OK", node4Sub: "GET /v2/aggs/…/range/1/day", reach5: true,
+      result: { ok: true, title: "200 OK · list[Agg] × " + data.daily_bars.length + " (auto-paginated)", body: JSON.stringify(data.daily_bars, null, 1) }
+    };
+  }
+  if (data.news && data.news.length) {
+    paths.news = {
+      label: "Run: news · 200 OK", targetX: 790, isErr: false,
+      arrow4Text: "200 OK", node4Sub: "GET /v2/reference/news", reach5: true,
+      result: { ok: true, title: "200 OK · " + data.news.length + " articles", body: JSON.stringify(data.news, null, 1) }
+    };
+  } else if (data.news_error) {
+    paths.err429 = {
+      label: "Run: news · 429", targetX: 618, isErr: true,
+      arrow4Text: "429", node4Sub: "GET /v2/reference/news", reach5: false,
+      result: { ok: false, title: "429 · Too Many Requests", body: data.news_error }
+    };
+  }
+  if (data.last_trade_error) {
+    var lt = data.last_trade_error;
+    var isRate = lt.raw && /rate limited/i.test(lt.raw);
+    paths.err403 = {
+      label: "Run: last trade · " + (isRate ? "429" : "403"), targetX: 618, isErr: true,
+      arrow4Text: isRate ? "429" : "403", node4Sub: "GET /v2/last/trade/" + data.ticker, reach5: false,
+      result: { ok: false, title: (isRate ? "429 · Too Many Requests" : "403 · " + (lt.status || "Error")), body: JSON.stringify(lt, null, 1) }
+    };
+  }
+  if (data.bad_key_error) {
+    paths.err401 = {
+      label: "Run: bad key · 401", targetX: 618, isErr: true,
+      arrow4Text: "401", node4Sub: "GET /v2/aggs/…/prev (bad key)", reach5: false,
+      result: { ok: false, title: "401 · " + (data.bad_key_error.error || "Unauthorized"), body: JSON.stringify(data.bad_key_error, null, 1) }
+    };
+  }
+  if (data.unknown_ticker_result) {
+    paths.emptyresult = {
+      label: "Run: unknown ticker · 200 (empty)", targetX: 790, isErr: false,
+      arrow4Text: "200 OK", node4Sub: "GET /v2/aggs/…/prev (unknown ticker)", reach5: true,
+      result: { ok: true, title: "200 OK · empty result set (not a 404)", body: JSON.stringify(data.unknown_ticker_result, null, 1) }
+    };
+  }
+  return paths;
+}
+
+function initFlowToggle(paths){
+  var toggleEl = document.getElementById("flowToggle");
   var pulse = document.getElementById("pulse");
   var progress = document.getElementById("progress-line");
   var node4Group = document.getElementById("node4-group");
@@ -464,86 +538,21 @@
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var timer = null;
 
-  var paths = {
-    success: {
-      targetX: 790, isErr: false,
-      arrow4Text: "200 OK",
-      node4Sub: "GET /v2/aggs/…/prev",
-      reach5: true,
-      result: {
-        ok: true,
-        title: "200 OK · PreviousCloseAgg",
-        body: '{"ticker":"AAPL","close":319.97,"open":328.305,\n "high":328.93,"low":317.86,"volume":39606884}'
-      }
-    },
-    aggs: {
-      targetX: 790, isErr: false,
-      arrow4Text: "200 OK",
-      node4Sub: "GET /v2/aggs/…/range/1/day",
-      reach5: true,
-      result: {
-        ok: true,
-        title: "200 OK · list[Agg] × 5 (auto-paginated)",
-        body: '[{"date":"2026-08-31","close":316.85},\n {"date":"2026-09-01","close":325.13},\n {"date":"2026-09-02","close":324.96},\n {"date":"2026-09-03","close":328.21},\n {"date":"2026-09-04","close":319.97}]'
-      }
-    },
-    err401: {
-      targetX: 618, isErr: true,
-      arrow4Text: "401",
-      node4Sub: "GET /v2/aggs/…/prev (bad key)",
-      reach5: false,
-      result: {
-        ok: false,
-        title: "401 · Unknown API Key",
-        body: '{"status":"ERROR",\n "request_id":"e669eabdff8eb5613c59a5a64955edf7",\n "error":"Unknown API Key"}'
-      }
-    },
-    emptyresult: {
-      targetX: 790, isErr: false,
-      arrow4Text: "200 OK",
-      node4Sub: "GET /v2/aggs/…/prev (unknown ticker)",
-      reach5: true,
-      result: {
-        ok: true,
-        title: "200 OK · empty result set (not a 404)",
-        body: '{"ticker":"ZZZZNOTAREALTICKER","queryCount":0,\n "resultsCount":0,"adjusted":true,"status":"OK",\n "request_id":"dda7f22565e8b2ab0d2b8d5801cf8a1a"}'
-      }
-    },
-    err403: {
-      targetX: 618, isErr: true,
-      arrow4Text: "403",
-      node4Sub: "GET /v2/last/trade/AAPL",
-      reach5: false,
-      result: {
-        ok: false,
-        title: "403 · NOT_AUTHORIZED",
-        body: '{"status":"NOT_AUTHORIZED",\n "request_id":"1609dd2d5cfff5e82d1ea62f2cdee2f1",\n "message":"You are not entitled to this data.\n  Please upgrade your plan at massive.com/pricing"}'
-      }
-    },
-    err429: {
-      targetX: 618, isErr: true,
-      arrow4Text: "429",
-      node4Sub: "GET /v2/reference/news",
-      reach5: false,
-      result: {
-        ok: false,
-        title: "429 · Too Many Requests",
-        body: 'HTTPSConnectionPool(host=\'api.massive.com\', port=443):\n Max retries exceeded — 429 on every attempt, spaced\n minutes apart. Free-tier rate limit, not a one-off blip.'
-      }
-    }
-  };
+  var keys = Object.keys(paths);
+  toggleEl.innerHTML = keys.map(function(k, i){
+    return '<button type="button" class="flow-btn' + (i === 0 ? " active" : "") + '" data-path="' + k + '" aria-pressed="' + (i === 0 ? "true" : "false") + '">' + escapeHtml(paths[k].label) + '</button>';
+  }).join("");
 
   function finish(p){
     node4Group.classList.remove("err");
     node4Group.classList.add("node-hit");
     if (p.isErr) node4Group.classList.add("err");
-    node5Group.classList.remove("node-hit","node-miss");
+    node5Group.classList.remove("node-hit", "node-miss");
     node5Group.classList.add(p.reach5 ? "node-hit" : "node-miss");
     var dotCls = p.result.ok ? "dot" : "dot err";
     var chipCls = p.result.ok ? "chip" : "chip err";
-    resultEl.innerHTML =
-      '<div class="' + chipCls + '"><span class="' + dotCls + '"></span>' + p.result.title + '</div>' +
-      '<pre>' + p.result.body + '</pre>';
+    resultEl.innerHTML = '<div class="' + chipCls + '"><span class="' + dotCls + '"></span>' + escapeHtml(p.result.title) + '</div>' + preBlock(p.result.body);
+    attachCopyButtons(resultEl);
   }
 
   function run(key){
@@ -558,29 +567,22 @@
     progress.classList.toggle("err", p.isErr);
 
     if (reduced) {
-      pulse.style.opacity = "0";
-      progress.style.opacity = "0";
-      finish(p);
-      return;
+      pulse.style.opacity = "0"; progress.style.opacity = "0";
+      finish(p); return;
     }
-
-    pulse.setAttribute("cx", "20");
-    progress.setAttribute("x2", "20");
-    pulse.style.opacity = "1";
-    progress.style.opacity = "1";
+    pulse.setAttribute("cx", "20"); progress.setAttribute("x2", "20");
+    pulse.style.opacity = "1"; progress.style.opacity = "1";
     void pulse.getBoundingClientRect();
     requestAnimationFrame(function(){
-      pulse.setAttribute("cx", p.targetX);
-      progress.setAttribute("x2", p.targetX);
+      pulse.setAttribute("cx", p.targetX); progress.setAttribute("x2", p.targetX);
     });
     timer = window.setTimeout(function(){ finish(p); }, 1150);
   }
 
-  btns.forEach(function(btn){
+  toggleEl.querySelectorAll(".flow-btn").forEach(function(btn){
     btn.addEventListener("click", function(){
-      btns.forEach(function(b){
-        b.classList.remove("active");
-        b.setAttribute("aria-pressed", "false");
+      toggleEl.querySelectorAll(".flow-btn").forEach(function(b){
+        b.classList.remove("active"); b.setAttribute("aria-pressed", "false");
       });
       btn.classList.add("active");
       if (btn.getAttribute("data-path") !== "success") btn.classList.add("err");
@@ -589,8 +591,55 @@
     });
   });
 
-  run("success");
-})();
+  if (keys.length) run(keys[0]);
+  document.getElementById("flowCaption").textContent =
+    "This page is static (GitHub Pages) — these buttons replay " + keys.length +
+    " real, pre-recorded outcomes from the " + (window.__demoDate || "latest") +
+    " run below; they don't make a live API call from your browser.";
+}
+
+async function main(){
+  var data;
+  try {
+    var res = await fetch("./results.json", { cache: "no-store" });
+    data = await res.json();
+  } catch (err) {
+    document.getElementById("evidenceGrid").innerHTML = '<div class="empty">Could not load results.json — open this page over http(s), not file://.</div>';
+    return;
+  }
+
+  window.__demoDate = fmtDate(data.generated_at);
+  document.getElementById("metaRow").innerHTML =
+    '<span><b>Verified</b> ' + escapeHtml(window.__demoDate) + (data.generated_at_iso ? ' · ' + escapeHtml(freshness(data.generated_at_iso)) : '') + '</span>' +
+    '<span><b>Host</b> api.massive.com</span>' +
+    '<span><b>Runtime</b> Python / venv</span>' +
+    '<span><b>Package</b> massive, pip-installed</span>' +
+    '<span><b>Ticker used</b> ' + escapeHtml(data.ticker) + '</span>';
+
+  var cards = buildEvidenceCards(data);
+  document.getElementById("evidenceGrid").innerHTML = cards.length ? cards.join("") : '<div class="empty">No results captured on this run.</div>';
+  document.getElementById("evidenceNote").textContent = "all against live data, " + window.__demoDate;
+  document.getElementById("evidence-h").textContent = cards.length + " findings from this run";
+
+  if (data.daily_bars && data.daily_bars.length) renderChart(data.daily_bars);
+  attachCopyButtons(document);
+
+  if (data.last_trade_error) {
+    document.getElementById("asideBlock").hidden = false;
+    document.getElementById("asideText").innerHTML =
+      'The same key, one endpoint over: <span class="mono">get_last_trade("' + escapeHtml(data.ticker) + '")</span> correctly fails — auth succeeds (the key itself is valid, and <span class="mono">get_previous_close_agg</span>/<span class="mono">list_aggs</span> prove that), but the free plan doesn\'t include real-time last-trade data. The error is specific enough to self-serve from.';
+    document.getElementById("asideJson").textContent = JSON.stringify(data.last_trade_error);
+  }
+
+  var paths = buildFlowPaths(data);
+  initFlowToggle(paths);
+}
+
+main().catch(function(err){
+  console.error("render failed:", err);
+  var grid = document.getElementById("evidenceGrid");
+  if (grid) grid.innerHTML = '<div class="empty">Something went wrong rendering this page: ' + escapeHtml(err && err.message ? err.message : String(err)) + '</div>';
+});
 </script>
 </body>
 </html>

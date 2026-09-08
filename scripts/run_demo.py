@@ -129,15 +129,25 @@ def main() -> None:
     time.sleep(CALL_SPACING_SECONDS)
 
     # 6. An unknown ticker isn't a 404 - it's a 200 with an empty result set.
-    # A caller who only catches exceptions will miss this silently.
-    empty = client.get_previous_close_agg("ZZZZNOTAREALTICKER")
-    results["unknown_ticker_result"] = empty if isinstance(empty, list) else [empty]
+    # A caller who only catches exceptions will miss this silently. raw=True
+    # returns the actual HTTP response instead of a parsed model, so the
+    # real envelope (status, resultsCount, request_id) is captured as-is.
+    raw_resp = client.get_previous_close_agg("ZZZZNOTAREALTICKER", raw=True)
+    results["unknown_ticker_result"] = json.loads(raw_resp.data.decode("utf-8"))
     print(f"[unknown ticker] no error raised - got back: {results['unknown_ticker_result']}")
 
-    out_path = os.path.join(os.path.dirname(__file__), "..", "results.json")
-    with open(out_path, "w") as f:
-        json.dump(results, f, indent=2)
-    print(f"\nWrote {out_path}")
+    results["generated_at_iso"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    # Written to both locations: root results.json is the canonical raw
+    # output (what someone browsing the repo would look for), and the copy
+    # inside docs/ is what GitHub Pages actually serves - docs/index.html
+    # fetches it with a relative path, so it has to live alongside the page.
+    repo_root = os.path.join(os.path.dirname(__file__), "..")
+    for rel_path in ("results.json", os.path.join("docs", "results.json")):
+        out_path = os.path.join(repo_root, rel_path)
+        with open(out_path, "w") as f:
+            json.dump(results, f, indent=2)
+        print(f"Wrote {out_path}")
 
 
 if __name__ == "__main__":

@@ -8,11 +8,20 @@ using a real free-tier API key.
 ## Live demo
 
 **[deuber.github.io/massive-api-client-demo](https://deuber.github.io/massive-api-client-demo/)**
-has an interactive toggle over six real, pre-recorded outcomes from an
-actual run — real prices, an auto-paginating call, and four different
-failure/edge-case shapes (403, 429, 401, and a silent empty-result "200").
-Nothing on that page is fabricated; `results.json` in this repo is the raw
-output the script wrote.
+has an interactive toggle over whatever the last actual run captured — real
+prices, an auto-paginating call, and several failure/edge-case shapes (403,
+429, 401, and a silent empty-result "200"). Nothing on that page is
+fabricated: `docs/index.html` is a thin renderer that fetches
+`docs/results.json` at load time and builds the whole page — cards, chart,
+and flow-diagram states — from whatever's actually in it. There's no
+hand-edited HTML to drift out of sync with the data.
+
+A scheduled [GitHub Action](.github/workflows/refresh.yml) re-runs the
+script weekly (and on manual dispatch) using a repo secret for the API key,
+so the page keeps re-verifying itself against the live API rather than
+staying a one-time snapshot. If a run's outcome shape changes — say the
+news call stops being rate-limited — the page picks it up automatically
+next load; there's no template to update by hand.
 
 ## What it demonstrates
 
@@ -44,16 +53,38 @@ export MASSIVE_API_KEY=your_key_here   # free tier: https://massive.com/pricing
 python3 scripts/run_demo.py
 ```
 
-Writes real captured output to `results.json`. The free tier rate-limits
-aggressively (a handful of requests per minute), so the script paces its
-own calls — you may still see a 429 on the news query if you run it more
-than once in quick succession, which is the real behavior this demo is
-partly about.
+Writes real captured output to `results.json` **and** `docs/results.json`
+(GitHub Pages only serves the `docs/` folder, and the page fetches its data
+with a relative path, so both need the same file). The free tier
+rate-limits aggressively (a handful of requests per minute), so the script
+paces its own calls — you may still see a 429 on the news query if you run
+it more than once in quick succession, which is the real behavior this
+demo is partly about.
+
+Open `docs/index.html` in a browser after running it — but not via a bare
+`file://` URL, since `fetch()` for a local JSON file is blocked there by
+browsers. Serve it locally instead, e.g. `python3 -m http.server` from
+inside `docs/`.
+
+## Keeping it live: the GitHub Action
+
+`.github/workflows/refresh.yml` runs weekly (and can be triggered manually
+from the Actions tab) with `MASSIVE_API_KEY` set as an
+[encrypted repo secret](https://docs.github.com/actions/security-guides/using-secrets-in-github-actions) —
+never committed, never visible in logs, and not carried over to anyone
+else's fork or clone. It re-runs `scripts/run_demo.py` and commits the
+refreshed `results.json` files only if something actually changed.
+
+Cloning this repo gets you the code, not the secret — running the workflow
+yourself (or `scripts/run_demo.py` locally) requires your own Massive API
+key, never mine.
 
 ## Project structure
 
 ```
-scripts/run_demo.py   The actual script — loads the key, makes the 6 calls, writes results.json
-results.json           Real output from an actual run (checked in, not a mock)
-docs/index.html         Static page with an interactive toggle over the 6 outcomes
+scripts/run_demo.py         The actual script — loads the key, makes the calls, writes both results.json files
+results.json                  Real output from an actual run (checked in, not a mock)
+docs/index.html              Thin renderer: fetches docs/results.json and builds the whole page from it
+docs/results.json              Same content as the root copy, served by GitHub Pages
+.github/workflows/refresh.yml   Scheduled re-run + auto-commit, using a repo secret for the key
 ```

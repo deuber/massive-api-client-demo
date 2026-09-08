@@ -1,0 +1,40 @@
+name: Refresh live results
+
+"on":
+  schedule:
+    # Every Monday at 14:00 UTC.
+    - cron: "0 14 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run the demo script against the live API
+        env:
+          MASSIVE_API_KEY: ${{ secrets.MASSIVE_API_KEY }}
+        run: python3 scripts/run_demo.py
+
+      - name: Commit refreshed results, if anything changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add results.json docs/results.json
+          if git diff --cached --quiet; then
+            echo "No change in captured results — nothing to commit."
+          else
+            git commit -m "Refresh live results ($(date -u +%Y-%m-%d))"
+            git push
+          fi
