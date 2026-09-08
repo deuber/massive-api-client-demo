@@ -34,12 +34,12 @@
   "news_error": "rate limited (free tier \u2014 429 on every attempt across multiple retries and minutes of spacing)",
   "last_trade_error": {
     "status": "NOT_AUTHORIZED",
-    "request_id": "af705ac743dfef485270cafcda8898b2",
+    "request_id": "d3311184770f43ecf8362b942417828a",
     "message": "You are not entitled to this data. Please upgrade your plan at https://massive.com/pricing"
   },
   "bad_key_error": {
     "status": "ERROR",
-    "request_id": "183f031496bd33dd821a06f1d36b5849",
+    "request_id": "033313606ca0125309e80fda872783f0",
     "error": "Unknown API Key"
   },
   "unknown_ticker_result": {
@@ -48,7 +48,7 @@
     "resultsCount": 0,
     "adjusted": true,
     "status": "OK",
-    "request_id": "6296944b6b463f7f5e21b4641bd72ee9"
+    "request_id": "8cc310340387d87536f8b7d808aacb1f"
   },
-  "generated_at_iso": "2026-09-08T18:03:15Z"
+  "generated_at_iso": "2026-09-08T18:18:05Z"
 }
