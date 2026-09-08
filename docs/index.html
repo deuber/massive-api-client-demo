@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Massive REST Client Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,440;9..144,560;9..144,650&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --bg:#F2F4EE;
+    --surface:#FFFFFF;
+    --surface-2:#FAFBF6;
+    --ink:#141A11;
+    --ink-muted:#565F51;
+    --ink-faint:#8B9382;
+    --accent:#A97A2A;
+    --accent-ink:#5E4315;
+    --err:#B4573F;
+    --border:#DCE1D1;
+    --border-strong:#C4CBB6;
+    --console-bg:#12150D;
+    --console-ink:#CDD3C1;
+    --console-accent:#E0A94D;
+    --console-border:#2A2E20;
+    --shadow: 0 1px 2px rgba(20,26,17,0.04), 0 6px 20px -12px rgba(20,26,17,0.18);
+    --note-bg:#EEF4E4;
+    --note-border:#CBDCB2;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14160F;
+      --surface:#1B1F15;
+      --surface-2:#20251A;
+      --ink:#ECEEE3;
+      --ink-muted:#A7AE9A;
+      --ink-faint:#6E7563;
+      --accent:#D7A24B;
+      --accent-ink:#F3D9A1;
+      --border:#2B3023;
+      --border-strong:#3B412F;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -14px rgba(0,0,0,0.55);
+      --note-bg:#1E2416;
+      --note-border:#333C25;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14160F; --surface:#1B1F15; --surface-2:#20251A; --ink:#ECEEE3;
+    --ink-muted:#A7AE9A; --ink-faint:#6E7563; --accent:#D7A24B; --accent-ink:#F3D9A1;
+    --border:#2B3023; --border-strong:#3B412F;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -14px rgba(0,0,0,0.55);
+    --note-bg:#1E2416; --note-border:#333C25;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Public Sans", -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--accent); color:var(--surface); }
+  .mono{ font-family:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace; }
+  .page{ max-width:920px; margin:0 auto; padding:56px 28px 80px; }
+
+  header.masthead{
+    display:flex; flex-direction:column; gap:14px;
+    padding-bottom:32px; border-bottom:1px solid var(--border-strong);
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono", monospace; font-size:11.5px; font-weight:500;
+    letter-spacing:0.14em; text-transform:uppercase; color:var(--accent-ink);
+  }
+  h1{
+    font-family:"Fraunces", Georgia, serif; font-optical-sizing:auto; font-weight:650;
+    font-size:clamp(34px, 5vw, 48px); line-height:1.04; letter-spacing:-0.01em;
+    margin:0; text-wrap:balance; color:var(--ink);
+  }
+  .dek{ font-size:16.5px; line-height:1.55; color:var(--ink-muted); max-width:62ch; margin:0; }
+  .meta-row{ display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:6px; }
+  .meta-row span{ font-family:"IBM Plex Mono", monospace; font-size:12px; color:var(--ink-faint); white-space:nowrap; }
+  .meta-row span b{ color:var(--ink-muted); font-weight:500; }
+
+  .note{
+    background:var(--note-bg); border:1px solid var(--note-border); border-radius:10px;
+    padding:12px 16px; font-size:13px; line-height:1.55; margin-top:24px;
+  }
+  .note a{ color:var(--accent-ink); }
+  .note code{ background:var(--surface); padding:1px 5px; border-radius:4px; }
+
+  section{ margin-top:52px; }
+  .section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:18px; }
+  h2{
+    font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:22px;
+    letter-spacing:-0.005em; margin:0; color:var(--ink);
+  }
+  .section-note{ font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--ink-faint); white-space:nowrap; }
+
+  figure.diagram{
+    margin:0; background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:26px 20px 18px; box-shadow:var(--shadow);
+  }
+  figure.diagram svg{ display:block; width:100%; height:auto; color:var(--ink); }
+  figure.diagram .accentline{ color:var(--accent); }
+  figcaption{
+    margin-top:14px; font-size:13.5px; color:var(--ink-muted); line-height:1.5;
+    border-top:1px solid var(--border); padding-top:12px;
+  }
+
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:680px){ .grid{ grid-template-columns:1fr; } }
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:20px 20px 18px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:12px;
+  }
+  .card-label{
+    font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--accent-ink);
+    background:color-mix(in srgb, var(--accent) 14%, transparent);
+    border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    padding:3px 8px; border-radius:5px; width:fit-content; letter-spacing:0.01em;
+  }
+  .card-label.err{
+    color:var(--err); background:color-mix(in srgb, var(--err) 12%, transparent);
+    border-color:color-mix(in srgb, var(--err) 35%, transparent);
+  }
+  .card-title{ font-size:14px; color:var(--ink-muted); line-height:1.4; }
+
+  .stat-value{
+    font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:44px;
+    letter-spacing:-0.01em; line-height:1; color:var(--ink); font-variant-numeric:tabular-nums;
+  }
+  .stat-delta{ font-family:"IBM Plex Mono", monospace; font-size:13px; color:var(--accent-ink); margin-top:2px; }
+  .stat-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:6px;
+    padding-top:12px; border-top:1px solid var(--border);
+  }
+  .stat-grid div{ display:flex; flex-direction:column; gap:2px; }
+  .stat-grid .k{ font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-faint); }
+  .stat-grid .v{ font-family:"IBM Plex Mono", monospace; font-size:13px; color:var(--ink); font-variant-numeric:tabular-nums; }
+
+  .chart-wrap{ position:relative; }
+  #chart{ display:block; width:100%; height:auto; overflow:visible; }
+  .chart-grid-line{ stroke:var(--border); stroke-width:1; }
+  .chart-line{ fill:none; stroke:var(--accent); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .chart-area{ fill:var(--accent); opacity:0.10; }
+  .chart-dot{ fill:var(--surface); stroke:var(--accent); stroke-width:2; }
+  .chart-dot.end{ fill:var(--accent); }
+  .chart-axis-label{ font-family:"IBM Plex Mono", monospace; font-size:10.5px; fill:var(--ink-faint); }
+  .tooltip{
+    position:absolute; pointer-events:none; background:var(--ink); color:var(--bg);
+    font-family:"IBM Plex Mono", monospace; font-size:11.5px; padding:6px 9px; border-radius:6px;
+    line-height:1.4; transform:translate(-50%,-115%); white-space:nowrap; opacity:0;
+    transition:opacity 0.1s ease; box-shadow:var(--shadow); z-index:2;
+  }
+  .tooltip.show{ opacity:1; }
+  .hit{ fill:transparent; cursor:crosshair; }
+
+  .console{
+    background:var(--console-bg); color:var(--console-ink); border:1px solid var(--console-border);
+    border-radius:8px; padding:14px 15px; font-family:"IBM Plex Mono", monospace; font-size:12px;
+    line-height:1.65; overflow-x:auto;
+  }
+  .console .k{ color:#8A9280; }
+  .console .v{ color:var(--console-ink); }
+  .console .hl{ color:var(--console-accent); }
+  .console .hlerr{ color:#E08769; }
+  .console .dim{ color:#5C6353; }
+
+  .aside{
+    margin-top:16px; display:grid; grid-template-columns:auto 1fr; gap:14px 16px; align-items:start;
+    background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:18px 20px;
+  }
+  .aside .tag{
+    font-family:"IBM Plex Mono", monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--accent-ink); padding-top:2px; white-space:nowrap;
+  }
+  .aside p{ margin:0 0 8px; font-size:14px; line-height:1.55; color:var(--ink-muted); }
+  .aside .errline{
+    font-family:"IBM Plex Mono", monospace; font-size:12px; color:var(--ink); background:var(--surface);
+    border:1px solid var(--border); border-radius:6px; padding:8px 10px; white-space:pre-wrap; word-break:break-word;
+  }
+  @media (max-width:680px){ .aside{ grid-template-columns:1fr; } .aside .tag{ white-space:normal; } }
+
+  footer{
+    margin-top:56px; padding-top:20px; border-top:1px solid var(--border-strong);
+    font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--ink-faint); line-height:1.7;
+  }
+  footer a{ color:var(--ink-faint); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <div class="eyebrow">Personal project &middot; API integration</div>
+    <h1>Getting the Massive client working, end to end</h1>
+    <p class="dek">An original script using <span class="mono">massive-com/client-python</span> (installed via <span class="mono">pip install massive</span>) to make real, authenticated calls against the live Massive REST API &mdash; including what its free tier actually does when you hit a plan limit or a rate limit.</p>
+    <div class="meta-row">
+      <span><b>Verified</b> Sep 8, 2026</span>
+      <span><b>Host</b> api.massive.com</span>
+      <span><b>Runtime</b> Python 3.9 / venv</span>
+      <span><b>Package</b> massive, pip-installed</span>
+      <span><b>Ticker used</b> AAPL</span>
+    </div>
+    <div class="note">
+      Every number on this page is real output from an actual run of
+      <code>scripts/run_demo.py</code> in
+      <a href="https://github.com/deuber/massive-api-client-demo" target="_blank" rel="noopener">this repo</a>
+      &mdash; including the parts that didn't go as planned. <code>results.json</code> in the repo
+      is the raw captured output this page renders; nothing here is simulated or invented.
+    </div>
+  </header>
+
+  <section aria-labelledby="flow-h">
+    <div class="section-head">
+      <h2 id="flow-h">How one call gets from this laptop to a live price</h2>
+      <span class="section-note">client.get_previous_close_agg("AAPL")</span>
+    </div>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 860 210" role="img" aria-label="A key stored in a chmod 600 file on the local machine is read into the Python process environment, passed to RESTClient, sent as a Bearer header across the network to api.massive.com, and the JSON response is parsed back into a typed Python object.">
+        <line x1="20" y1="96" x2="840" y2="96" stroke="currentColor" stroke-opacity="0.15" stroke-width="1"/>
+        <line x1="470" y1="20" x2="470" y2="176" stroke="currentColor" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="3 5"/>
+        <text x="470" y="14" text-anchor="middle" class="chart-axis-label mono" font-size="10.5" fill="currentColor" fill-opacity="0.55">NETWORK BOUNDARY</text>
+        <text x="150" y="200" text-anchor="middle" class="chart-axis-label mono" font-size="10.5" fill="currentColor" fill-opacity="0.55">THIS LAPTOP</text>
+        <text x="655" y="200" text-anchor="middle" class="chart-axis-label mono" font-size="10.5" fill="currentColor" fill-opacity="0.55">MASSIVE</text>
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <rect x="20" y="70" width="120" height="52" rx="8" fill="none" stroke="currentColor" stroke-width="1.3"/>
+        <text x="80" y="92" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">~/.massive_env</text>
+        <text x="80" y="108" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" fill-opacity="0.55">chmod 600</text>
+        <line x1="140" y1="96" x2="188" y2="96" stroke="currentColor" stroke-width="1.3" marker-end="url(#arrow)"/>
+        <text x="164" y="84" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.65">read at start</text>
+        <rect x="190" y="70" width="130" height="52" rx="8" fill="none" stroke="currentColor" stroke-width="1.3"/>
+        <text x="255" y="92" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">MASSIVE_API_KEY</text>
+        <text x="255" y="108" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.55">process env var</text>
+        <line x1="320" y1="96" x2="368" y2="96" stroke="currentColor" stroke-width="1.3" marker-end="url(#arrow)"/>
+        <rect x="370" y="70" width="100" height="52" rx="8" fill="none" stroke="currentColor" stroke-width="1.3"/>
+        <text x="420" y="92" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">RESTClient</text>
+        <text x="420" y="108" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.55">() init</text>
+        <line x1="470" y1="96" x2="546" y2="96" stroke="currentColor" class="accentline" stroke-width="1.6" marker-end="url(#arrow)"/>
+        <text x="508" y="76" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" class="accentline" fill="currentColor">Authorization:</text>
+        <text x="508" y="88" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" class="accentline" fill="currentColor">Bearer &bull;&bull;&bull;&bull;</text>
+        <rect x="548" y="70" width="140" height="52" rx="8" fill="none" stroke="currentColor" stroke-width="1.3"/>
+        <text x="618" y="92" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">api.massive.com</text>
+        <text x="618" y="108" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.55">GET /v2/aggs/&hellip;/prev</text>
+        <line x1="688" y1="96" x2="738" y2="96" stroke="currentColor" class="accentline" stroke-width="1.6" marker-end="url(#arrow)"/>
+        <text x="713" y="76" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" class="accentline" fill="currentColor">200 OK</text>
+        <rect x="740" y="70" width="100" height="52" rx="8" fill="none" stroke="currentColor" stroke-width="1.3"/>
+        <text x="790" y="92" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">Typed model</text>
+        <text x="790" y="108" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.55">PreviousCloseAgg</text>
+      </svg>
+      <figcaption>The key lives only in a file only you can read; it never appears in code, logs, or this page. Everything left of the dashed line stays on the laptop &mdash; only the Bearer header crosses the network.</figcaption>
+    </figure>
+  </section>
+
+  <section aria-labelledby="evidence-h">
+    <div class="section-head">
+      <h2 id="evidence-h">Four calls, three shapes of success, two kinds of failure</h2>
+      <span class="section-note">all against live data, Sep 8, 2026</span>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <span class="card-label">get_previous_close_agg("AAPL")</span>
+        <div>
+          <div class="stat-value">$319.97</div>
+          <div class="stat-delta">&minus;$8.34 from open (&minus;2.54%)</div>
+        </div>
+        <div class="stat-grid">
+          <div><span class="k">Open</span><span class="v">328.31</span></div>
+          <div><span class="k">High</span><span class="v">328.93</span></div>
+          <div><span class="k">Low</span><span class="v">317.86</span></div>
+          <div><span class="k">Vol</span><span class="v">39.6M</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">list_aggs() &middot; 1 request</span>
+        <div class="card-title">Auto-paginating generator, sliced to the last 5 daily bars.</div>
+        <div class="chart-wrap">
+          <svg id="chart" viewBox="0 0 380 150" role="img" aria-label="AAPL daily close, August 31 to September 4, 2026: 316.85, 325.13, 324.96, 328.21, 319.97.">
+            <line x1="0" y1="14" x2="380" y2="14" class="chart-grid-line"/>
+            <line x1="0" y1="70" x2="380" y2="70" class="chart-grid-line"/>
+            <line x1="0" y1="126" x2="380" y2="126" class="chart-grid-line"/>
+            <path class="chart-area" d="M10,109.4 L102.5,38.8 L195,42.5 L287.5,14.9 L370,55.9 L370,140 L10,140 Z"/>
+            <path class="chart-line" d="M10,109.4 L102.5,38.8 L195,42.5 L287.5,14.9 L370,55.9"/>
+            <circle class="chart-dot" cx="10" cy="109.4" r="4"/>
+            <circle class="chart-dot" cx="102.5" cy="38.8" r="4"/>
+            <circle class="chart-dot" cx="195" cy="42.5" r="4"/>
+            <circle class="chart-dot" cx="287.5" cy="14.9" r="4"/>
+            <circle class="chart-dot end" cx="370" cy="55.9" r="4.5"/>
+            <text x="10" y="145" class="chart-axis-label" text-anchor="start">Aug 31</text>
+            <text x="370" y="145" class="chart-axis-label" text-anchor="end">Sep 4</text>
+            <g id="chart-hits"></g>
+          </svg>
+          <div class="tooltip" id="chart-tooltip"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label err">list_ticker_news(published_utc.gte)</span>
+        <div class="card-title">429 on every attempt, spaced minutes apart &mdash; a real free-tier rate limit, not a one-off blip.</div>
+        <div class="console">
+<span class="k">Request URL</span>  <span class="v">https://api.massive.com/v2/reference/news?ticker=AAPL&amp;limit=3</span>
+<span class="k">Status</span>       <span class="hlerr">429 Too Many Requests</span>
+<span class="k">Retries</span>      <span class="v dim">exhausted client's built-in retry budget</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">RESTClient(trace=True)</span>
+        <div class="card-title">What a support engineer actually looks at when a call fails.</div>
+        <div class="console">
+<span class="k">Request URL</span>  <span class="v">https://api.massive.com/v2/last/trade/AAPL</span>
+<span class="k">Authorization</span> <span class="v">Bearer REDACTED</span>
+<span class="k">Status</span>       <span class="hlerr">403 NOT_AUTHORIZED</span>
+<span class="k">Request-Id</span>   <span class="v dim">159b118e893281cf01610dca4c16839b</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="aside">
+      <span class="tag">Also verified</span>
+      <div>
+        <p>The same key, one endpoint over: <span class="mono">get_last_trade("AAPL")</span> correctly fails &mdash; auth succeeds (the key itself is valid, and <span class="mono">get_previous_close_agg</span>/<span class="mono">list_aggs</span> prove that), but the free plan doesn't include real-time last-trade data. The error is specific enough to self-serve from.</p>
+        <div class="errline">{"status":"NOT_AUTHORIZED","request_id":"159b118e893281cf01610dca4c16839b","message":"You are not entitled to this data. Please upgrade your plan at https://massive.com/pricing"}</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    massive-com/client-python, installed via <code class="mono">pip install massive</code> &middot; all calls shown above hit api.massive.com live on Sep 8, 2026 &middot; API key loaded from a chmod-600 file, never committed or logged &middot; source + raw results: <a href="https://github.com/deuber/massive-api-client-demo" target="_blank" rel="noopener">github.com/deuber/massive-api-client-demo</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var points = [
+    {x:10,    y:109.4, date:"Mon, Aug 31", close:316.85},
+    {x:102.5, y:38.8,  date:"Tue, Sep 1",  close:325.13},
+    {x:195,   y:42.5,  date:"Wed, Sep 2",  close:324.96},
+    {x:287.5, y:14.9,  date:"Thu, Sep 3",  close:328.21},
+    {x:370,   y:55.9,  date:"Fri, Sep 4",  close:319.97}
+  ];
+  var svg = document.getElementById("chart");
+  var hits = document.getElementById("chart-hits");
+  var tooltip = document.getElementById("chart-tooltip");
+  var ns = "http://www.w3.org/2000/svg";
+
+  points.forEach(function(p){
+    var c = document.createElementNS(ns, "circle");
+    c.setAttribute("cx", p.x);
+    c.setAttribute("cy", p.y);
+    c.setAttribute("r", 10);
+    c.setAttribute("class", "hit");
+    c.addEventListener("mouseenter", function(){ showTip(p); });
+    c.addEventListener("mouseleave", hideTip);
+    hits.appendChild(c);
+  });
+
+  function showTip(p){
+    var rect = svg.getBoundingClientRect();
+    var wrap = svg.parentElement.getBoundingClientRect();
+    var scale = rect.width / 380;
+    tooltip.innerHTML = p.date + "<br>$" + p.close.toFixed(2);
+    tooltip.style.left = (rect.left - wrap.left + p.x * scale) + "px";
+    tooltip.style.top = (rect.top - wrap.top + p.y * scale) + "px";
+    tooltip.classList.add("show");
+  }
+  function hideTip(){ tooltip.classList.remove("show"); }
+})();
+</script>
+</body>
+</html>

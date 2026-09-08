@@ -1,0 +1,40 @@
+{
+  "ticker": "AAPL",
+  "generated_at": "2026-09-08",
+  "previous_close": {
+    "close": 319.97,
+    "open": 328.305,
+    "high": 328.93,
+    "low": 317.86,
+    "volume": 39606884.0
+  },
+  "daily_bars": [
+    {
+      "date": "2026-08-31",
+      "close": 316.85
+    },
+    {
+      "date": "2026-09-01",
+      "close": 325.13
+    },
+    {
+      "date": "2026-09-02",
+      "close": 324.96
+    },
+    {
+      "date": "2026-09-03",
+      "close": 328.21
+    },
+    {
+      "date": "2026-09-04",
+      "close": 319.97
+    }
+  ],
+  "news": null,
+  "news_error": "rate limited (free tier — 429 on every attempt across multiple retries and minutes of spacing)",
+  "last_trade_error": {
+    "status": "NOT_AUTHORIZED",
+    "request_id": "159b118e893281cf01610dca4c16839b",
+    "message": "You are not entitled to this data. Please upgrade your plan at https://massive.com/pricing"
+  }
+}
