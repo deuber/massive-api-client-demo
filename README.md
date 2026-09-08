@@ -11,17 +11,34 @@ using a real free-tier API key.
 has an interactive toggle over whatever the last actual run captured — real
 prices, an auto-paginating call, and several failure/edge-case shapes (403,
 429, 401, and a silent empty-result "200"). Nothing on that page is
-fabricated: `docs/index.html` is a thin renderer that fetches
-`docs/results.json` at load time and builds the whole page — cards, chart,
-and flow-diagram states — from whatever's actually in it. There's no
-hand-edited HTML to drift out of sync with the data.
+fabricated. See **How it works** below for the mechanics.
 
-A scheduled [GitHub Action](.github/workflows/refresh.yml) re-runs the
-script weekly (and on manual dispatch) using a repo secret for the API key,
-so the page keeps re-verifying itself against the live API rather than
-staying a one-time snapshot. If a run's outcome shape changes — say the
-news call stops being rate-limited — the page picks it up automatically
-next load; there's no template to update by hand.
+## How it works
+
+1. **Capture.** `scripts/run_demo.py` makes six real calls against
+   `api.massive.com` and writes whatever actually happens — success or
+   failure — to `results.json`.
+2. **Render, don't template.** `docs/index.html` has almost no hardcoded
+   numbers. On load it does one `fetch('./results.json')` and builds the
+   stat tile, chart, evidence cards, and flow-diagram states entirely from
+   that response. A card (or a flow-toggle button) only exists if the
+   matching field exists in the JSON — so a run where the news call
+   succeeds instead of getting rate-limited renders a different card
+   automatically, with no code change. There's no template to drift out of
+   sync with the data, because there's no template — just real data
+   driving real DOM.
+3. **Interact, safely.** The flow-toggle buttons animate between those
+   captured outcomes; they never call the live API from your browser,
+   since that would mean shipping a real API key in public client-side JS.
+   A caption under the buttons says this explicitly.
+4. **Refresh automatically.** A scheduled [GitHub Action](.github/workflows/refresh.yml)
+   re-runs the script weekly (and on manual dispatch) using the key as an
+   encrypted repo secret, and commits the refreshed results only if
+   something actually changed.
+5. **Trust it.** Every number traces back to an actual HTTP response —
+   nothing in the rendering logic invents data. The one simulated part
+   (replaying past outcomes on button click, rather than calling the API
+   live) is the part explicitly labeled as such on the page.
 
 ## What it demonstrates
 
@@ -66,18 +83,14 @@ Open `docs/index.html` in a browser after running it — but not via a bare
 browsers. Serve it locally instead, e.g. `python3 -m http.server` from
 inside `docs/`.
 
-## Keeping it live: the GitHub Action
+## About the API key
 
-`.github/workflows/refresh.yml` runs weekly (and can be triggered manually
-from the Actions tab) with `MASSIVE_API_KEY` set as an
-[encrypted repo secret](https://docs.github.com/actions/security-guides/using-secrets-in-github-actions) —
-never committed, never visible in logs, and not carried over to anyone
-else's fork or clone. It re-runs `scripts/run_demo.py` and commits the
-refreshed `results.json` files only if something actually changed.
-
-Cloning this repo gets you the code, not the secret — running the workflow
-yourself (or `scripts/run_demo.py` locally) requires your own Massive API
-key, never mine.
+`MASSIVE_API_KEY` is stored as an
+[encrypted repo secret](https://docs.github.com/actions/security-guides/using-secrets-in-github-actions),
+never committed and never visible in workflow logs. Cloning or forking this
+repo gets you the code, not the secret — running the workflow yourself (or
+`scripts/run_demo.py` locally) requires your own Massive API key, never
+mine.
 
 ## Project structure
 
