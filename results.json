@@ -1,45 +1,45 @@
 {
   "ticker": "AAPL",
-  "generated_at": "2026-10-05",
+  "generated_at": "2026-10-12",
   "previous_close": {
-    "close": 333.69,
-    "open": 333.26,
-    "high": 334.54,
-    "low": 330.61,
-    "volume": 33278552.0
+    "close": 336.64,
+    "open": 331.695,
+    "high": 338.61,
+    "low": 330.7,
+    "volume": 37881199.0
   },
   "daily_bars": [
     {
-      "date": "2026-09-28",
-      "close": 338.4
+      "date": "2026-10-05",
+      "close": 332.89
     },
     {
-      "date": "2026-09-29",
-      "close": 329.4
+      "date": "2026-10-06",
+      "close": 333.63
     },
     {
-      "date": "2026-09-30",
-      "close": 333.02
+      "date": "2026-10-07",
+      "close": 336.67
     },
     {
-      "date": "2026-10-01",
-      "close": 330.32
+      "date": "2026-10-08",
+      "close": 340.42
     },
     {
-      "date": "2026-10-02",
-      "close": 333.69
+      "date": "2026-10-09",
+      "close": 336.64
     }
   ],
   "news": null,
   "news_error": "rate limited (free tier \u2014 429 on every attempt across multiple retries and minutes of spacing)",
   "last_trade_error": {
     "status": "NOT_AUTHORIZED",
-    "request_id": "b2353189ca711e91706f74b8a6594c46",
+    "request_id": "63f1786d6d2e848bcba3d6e30afbf2a9",
     "message": "You are not entitled to this data. Please upgrade your plan at https://massive.com/pricing"
   },
   "bad_key_error": {
     "status": "ERROR",
-    "request_id": "888bd8cf3e66b112545382eee86abcc2",
+    "request_id": "03400a19ead45fdc43b4da2101c455db",
     "error": "Unknown API Key"
   },
   "unknown_ticker_result": {
@@ -48,7 +48,7 @@
     "resultsCount": 0,
     "adjusted": true,
     "status": "OK",
-    "request_id": "7eef6716d457c79645a1dda42ae9cde9"
+    "request_id": "65e9e3fa148be4768b2a32d6709b66ff"
   },
-  "generated_at_iso": "2026-10-05T21:19:04Z"
+  "generated_at_iso": "2026-10-12T21:56:41Z"
 }
